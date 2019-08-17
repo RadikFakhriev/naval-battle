@@ -1,0 +1,16 @@
+.bg-seablue {
+    background-color: #006994;
+}
+
+#game-scene {
+    position: relative;
+}
+
+#btn-pause {
+    background-color: transparent;
+    border: 0;
+    outline: none;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}

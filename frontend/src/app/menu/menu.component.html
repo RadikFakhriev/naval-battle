@@ -1,0 +1,17 @@
+<div class="d-flex align-items-center flex-column justify-content-center h-100 bg-dark text-white">
+  <div *ngIf="!isNestedLevel">
+    <h1 class="display-3">Морской бой</h1>
+
+    <div *ngIf="!isPause" class="btn-group-vertical">
+      <button class="btn btn-warning btn-lg btn-block" [routerLink]="['/game', 1, 'menu', 1 ,'player', 0]">Начать игру</button>
+    </div>
+    <div *ngIf="isPause">
+      <button class="btn btn-warning btn-lg btn-block" (click)="goBack()">Возобновить игру</button>
+    </div>
+
+  </div>
+
+  <div *ngIf="isNestedLevel">
+    <router-outlet></router-outlet>
+  </div>
+</div>
