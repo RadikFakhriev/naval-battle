@@ -1,6 +1,11 @@
 export class Coordinates {
-    private x0: number;
-    private y0: number;
-    private rot: number; // 0 - вертикально, 1 - горизонтально
+    public x0: number;
+    public y0: number;
+    public rot: number; // 0 - вертикально, 1 - горизонтально
     
+    constructor(x, y, rot) {
+        this.x0 = x;
+        this.y0 = y;
+        this.rot = rot;
+    }
 }

@@ -1,5 +1,5 @@
 .bg-seablue {
-    background-color: #006994;
+    background-color: #79b4cc;
 }
 
 #game-scene {
@@ -13,4 +13,27 @@
     position: absolute;
     top: 20px;
     left: 20px;
+}
+
+.battlearea {
+    width: 100vw;
+    text-align: center;
+}
+
+.battlefield {
+    display: inline-block;
+}
+
+.battlefield + .battlefield {
+    padding-left: 200px;
+}
+
+@media (max-width: 1100px) { 
+    .battlefield {
+        display: block;
+    }
+
+    .battlefield + .battlefield {
+        padding-left: 0px;
+    }
 }

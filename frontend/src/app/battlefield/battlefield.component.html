@@ -1,4 +1,4 @@
-<table aim (selected)="onSelected($event)" >
+<table *ngIf="!isEnemy">
   <thead>
       <tr>
         <th></th>
@@ -6,10 +6,29 @@
       </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let yPoint of ordinatePoints">
+    <!-- <tr *ngFor="let yPoint of ordinatePoints">
       <th>{{yPoint}}</th>
       <td *ngFor="let xPoint of abscissaPoints" [attr.data-cell]="'(' + xPoint + ';' + yPoint + ')'"></td>
-    </tr>
+    </tr> -->
   
+    <tr *ngFor="let abscissa of matrix; let yPoint = index;">
+      <th>{{ ordinatePoints[yPoint] }}</th>
+      <td *ngFor="let cellState of abscissa" [ngClass]="{'intact-ship' : cellState === 1, 'miss' : cellState === 2, 'hit' : cellState == 3  }"></td>
+    </tr>
+  </tbody>
+</table>
+
+<table *ngIf="isEnemy" aim (selected)="onSelected($event)" [ngClass]="{'playerfield--inactive' : disabled}">
+  <thead>
+      <tr>
+        <th></th>
+        <th *ngFor="let xPoint of abscissaPoints">{{xPoint}}</th>
+      </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let abscissa of matrix; let yPoint = index;">
+      <th>{{ ordinatePoints[yPoint] }}</th>
+      <td *ngFor="let cellState of abscissa; let xPoint = index" [ngClass]="{'miss' : cellState === 2, 'hit' : cellState == 3 }" [attr.data-cell]="xPoint +';' + yPoint"></td>
+    </tr>
   </tbody>
 </table>

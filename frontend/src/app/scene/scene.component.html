@@ -2,5 +2,10 @@
   <button id="btn-pause" [routerLink]="['/game', 2, 'menu', 0]">
     <img [src]="pauseIcon" width="80px" height="80px" alt="Пауза">
   </button>
-  <battlefield></battlefield>
+  <div class="flex-row battlearea">
+    <battlefield class="battlefield" [id]="0" [isEnemy]="false"></battlefield>
+    <battlefield class="battlefield" [id]="1" [isEnemy]="true"></battlefield>
+  </div>
+  
+
 </div>
