@@ -26,6 +26,5 @@ th {
 }
 
 .playerfield--inactive {
-    pointer-events: none;
-    cursor: not-allowed;
+    pointer-events: none;  
 }

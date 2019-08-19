@@ -2,10 +2,24 @@
   <button id="btn-pause" [routerLink]="['/game', 2, 'menu', 0]">
     <img [src]="pauseIcon" width="80px" height="80px" alt="Пауза">
   </button>
+  <div class="display-4 text-center game__step-message" [innerHTML]="message"></div>
   <div class="flex-row battlearea">
-    <battlefield class="battlefield" [id]="0" [isEnemy]="false"></battlefield>
-    <battlefield class="battlefield" [id]="1" [isEnemy]="true"></battlefield>
+    <battlefield class="battlefield" [isEnemy]="false"></battlefield>
+    <battlefield class="battlefield" [isEnemy]="true"></battlefield>
   </div>
-  
+</div>
 
+<div #finalModal class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">{{finalTitle}}</h5>
+      </div>
+      <div class="modal-body" [innerHTML]="finalMessage">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" [routerLink]="['/game', 0, 'menu', 0]">Перейти в меню</button>
+      </div>
+    </div>
+  </div>
 </div>

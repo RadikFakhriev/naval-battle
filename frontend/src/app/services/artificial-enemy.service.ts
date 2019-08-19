@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, from } from "rxjs";
-import { Battlefield } from '../models/battlefield';
+import { BattlefieldService } from '../services/battlefield.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,16 +8,35 @@ import { Battlefield } from '../models/battlefield';
 export class ArtificialEnemyService {
 
   public isStepOwner$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-  public playerField: Battlefield;
+  public playerField: BattlefieldService;
 
   constructor() {
     
-    console.log('АДЫН!');
   }
 
-  strikeToPlayer(targetX, targetY) {
-    this.isStepOwner$.next(false);
-    return this.playerField.strike(targetX, targetY);
+  getRandomTarget() {
+
+  }
+
+  strikeToPlayer() {
+    let targetX, 
+        targetY,
+        decisionTime = Math.floor(Math.random() * 3000),
+        isHit;
+
+    // подбираем "нестреленную" ячейку
+    do{
+      targetX = Math.floor(Math.random() * 10);
+      targetY = Math.floor(Math.random() * 10);
+    } while(this.playerField.matrix[targetY][targetX] > 1)
+    
+    setTimeout(() => {
+      isHit = this.playerField.strike(targetX, targetY);
+      isHit ? this.isStepOwner$.next(true) : this.isStepOwner$.next(false);
+    }, decisionTime);
+
+    if (isHit) this.strikeToPlayer();
+    
   }
 
 }

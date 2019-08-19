@@ -2,11 +2,11 @@
   <div *ngIf="!isNestedLevel">
     <h1 class="display-3">Морской бой</h1>
 
-    <div *ngIf="!isPause" class="btn-group-vertical">
+    <div *ngIf="!isPause" class="btn-group-vertical w-100">
       <button class="btn btn-warning btn-lg btn-block" [routerLink]="['/game', 1, 'menu', 1 ,'player', 0]">Начать игру</button>
     </div>
     <div *ngIf="isPause">
-      <button class="btn btn-warning btn-lg btn-block" (click)="goBack()">Возобновить игру</button>
+      <button class="btn btn-warning btn-lg btn-block" (click)="goBack()">Продолжить игру</button>
     </div>
 
   </div>

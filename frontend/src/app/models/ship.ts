@@ -1,13 +1,12 @@
 import { Coordinates } from './coordinates';
 
 export class Ship {
-    private battlefieldId: number;
     public decks: number;
     public coordinates: Coordinates
-    
+    public isHit: boolean = false; // поврежден
+    public isDrowned: boolean = false; // утоплен
 
-    constructor(fieldId: number, decksAmount) {
-        this.battlefieldId = fieldId;
+    constructor(decksAmount) {
         this.decks = decksAmount;
     }
 }

@@ -6,6 +6,10 @@
     position: relative;
 }
 
+.game__step-message {
+    height: 200px;
+}
+
 #btn-pause {
     background-color: transparent;
     border: 0;
@@ -36,4 +40,9 @@
     .battlefield + .battlefield {
         padding-left: 0px;
     }
+}
+
+.final-modal--show {
+    display: block;
+    background-color: rgb(245, 245, 220, 0.8);
 }

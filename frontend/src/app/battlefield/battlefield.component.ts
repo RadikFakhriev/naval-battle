@@ -1,77 +1,83 @@
 import { Component, OnInit, Input, OnDestroy } from '@angular/core';
-import { Battlefield } from '../models/battlefield';
 import { ArtificialEnemyService } from '../services/artificial-enemy.service';
 import { Subscription } from 'rxjs';
+import { BattlefieldService } from '../services/battlefield.service';
+import { GameService } from '../services/game.service';
 
 
 @Component({
   selector: 'battlefield',
   templateUrl: './battlefield.component.html',
   styleUrls: ['./battlefield.component.css'],
+  providers: [BattlefieldService]
 })
 export class BattlefieldComponent implements OnInit, OnDestroy {
 
-  @Input() id: number;
   @Input() isEnemy: boolean;
 
   private abscissaPoints = ['а', 'б', 'в', 'г', 'д', 'е', 'ж', 'з', 'и', 'к'];
   private ordinatePoints = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-  private fieldModel: Battlefield;
   private matrix: number[][];
   private disabled: boolean = false;
-  private matrixUpdateSub$: Subscription;
-  private stepOwnerSub$: Subscription;
-  // private aiEnemy: ArtificialEnemyService
+  private matrixUpdateSub: Subscription;
+  private stepOwnerSub: Subscription;
 
-  constructor(private aiEnemy: ArtificialEnemyService) { 
+  constructor(private battlefield: BattlefieldService,
+              private gameService: GameService,
+              private aiEnemy: ArtificialEnemyService) { 
 
   }
 
   onSelected(cell: string){
     let cellArr = cell.split(";"),
       targetX = parseFloat(cellArr[0]),
-      targetY = parseFloat(cellArr[1]);
+      targetY = parseFloat(cellArr[1]),
+      cellState = parseFloat(cellArr[2]),
+      isHit;
 
-    this.fieldModel.strike(targetX, targetY);
-    this.aiEnemy.isStepOwner$.next(true);
+    if (cellState > 1) {
+      alert("Ты уже стрелял сюда! Выбери другую ячейку!");
+      return;
+    }
+    isHit = this.battlefield.strike(targetX, targetY);
+    if (isHit) this.aiEnemy.isStepOwner$.next(false);
+    else this.aiEnemy.isStepOwner$.next(true);
   }
 
-  ngOnInit() {
-    this.fieldModel = new Battlefield(this.id);
-    this.matrix = this.fieldModel.makeSquadronOnField();
 
-    this.matrixUpdateSub$ = this.fieldModel.matrixUpdate$.subscribe(update => {
+  ngOnInit() {
+    this.matrix = this.battlefield.makeSquadronOnField();
+
+    this.matrixUpdateSub = this.battlefield.matrixUpdate$.subscribe(update => {
       if (update) this.matrix[update['targetY']][update['tergetX']] = update['cellState'];
     });
-    
-    if (!this.isEnemy) {
-      this.aiEnemy.playerField = this.fieldModel;
-    }
+
+    this.battlefield.isDefeated$.subscribe(isDefeat => {
+      if (isDefeat) {
+        // TODO: set stop aiEnemy
+        this.gameService.setWinner(!this.isEnemy);
+      }
+    });
     
     if (this.isEnemy) {
-      this.stepOwnerSub$ = this.aiEnemy.isStepOwner$.subscribe(isOwnerEnemy => {
-        let targetX, targetY;
-        
+      this.stepOwnerSub = this.aiEnemy.isStepOwner$.subscribe(isOwnerEnemy => {
         this.disabled = isOwnerEnemy;
-        if (isOwnerEnemy) {
-          targetX = Math.floor(Math.random() * 10);
-          targetY = Math.floor(Math.random() * 10);
 
-          setTimeout(() => {
-            this.aiEnemy.strikeToPlayer(targetX, targetY);
-          }, 3000);
+        if (isOwnerEnemy) {
+            this.aiEnemy.strikeToPlayer();
         }
-        
       });
+    } else {
+      this.aiEnemy.playerField = this.battlefield;
     }
     
   }
 
   ngOnDestroy() {
-    this.matrixUpdateSub$.unsubscribe();
+    this.matrixUpdateSub.unsubscribe();
     if (this.isEnemy) {
-      this.stepOwnerSub$.unsubscribe();
+      this.stepOwnerSub.unsubscribe();
     }
   }
 

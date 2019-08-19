@@ -1,0 +1,9 @@
+.game__menu-alert {
+    position: absolute!important;
+    top: 50px;
+    width: 300px;
+    margin: 0 auto;
+    text-align: center;
+    left: 0;
+    right: 0;
+}

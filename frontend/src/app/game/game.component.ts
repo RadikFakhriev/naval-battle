@@ -1,20 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-game',
   templateUrl: './game.component.html',
   styleUrls: ['./game.component.css']
 })
-export class GameComponent implements OnInit {
+export class GameComponent implements OnInit, OnDestroy {
 
   state: number = 0;
+  private activationRouteSub: Subscription;
 
   constructor(private router: Router,
               private activatedRoute: ActivatedRoute) { }
-
-  
-  
 
   ngOnInit() {
     // TODO:
@@ -37,6 +36,10 @@ export class GameComponent implements OnInit {
       }
 
     });
+  }
+
+  ngOnDestroy() {
+    this.activationRouteSub.unsubscribe();
   }
 
 }
