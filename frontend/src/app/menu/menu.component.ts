@@ -3,6 +3,7 @@ import { Router, ActivatedRoute, ActivationEnd } from "@angular/router";
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators'
 import { Location } from '@angular/common';
+import { SceneComponent } from '../scene/scene.component';
 
 @Component({
   selector: 'app-menu',
@@ -51,7 +52,7 @@ export class MenuComponent implements OnInit {
   // не срабатывает для сохраненных роутов из reuse-strategy
 	// onActivate (activatedRouteComponent) {
 	// 	if (activatedRouteComponent instanceof SceneComponent) {
-	// 		this.sceneInst = activatedRouteComponent;
+	// 		console.log(activatedRouteComponent);
 	// 	}
 	// }
 

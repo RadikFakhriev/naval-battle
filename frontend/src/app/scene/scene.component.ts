@@ -65,6 +65,10 @@ export class SceneComponent implements OnInit, OnDestroy {
       this.openModal();
     });
   }
+  // For test ending of game
+  surrenderToEnemy() {
+    this.gameService.setWinner(true);
+  }
 
   ngOnDestroy() {
     this.stepOwnerSub.unsubscribe();

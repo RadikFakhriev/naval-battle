@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from "@angular/router";
 import { Subscription } from 'rxjs';
+import { GameService, GameStatus } from '../services/game.service';
 
 @Component({
   selector: 'app-game',
@@ -13,6 +14,7 @@ export class GameComponent implements OnInit, OnDestroy {
   private activationRouteSub: Subscription;
 
   constructor(private router: Router,
+              private gameService: GameService,
               private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
@@ -20,16 +22,18 @@ export class GameComponent implements OnInit, OnDestroy {
     // CheckGameStatus
     // if paused,closed,created and doesn't have gameId navigate to menu
     // else to scene
-    this.router.navigate(['menu', 0], { relativeTo: this.activatedRoute });
+    this.router.navigate(['menu', GameStatus.unknown], { relativeTo: this.activatedRoute });
     
     this.activatedRoute.params.subscribe(params => {
       this.state = parseFloat(params['state']);
+      this.gameService.status = this.state;
+
       switch (this.state) {
-        case 0: //unknown
+        case GameStatus.unknown:
           break;
-        case 1: //created
+        case GameStatus.created:
           break;
-        case 2: //paused
+        case GameStatus.paused:
           break;
         default:
           return;

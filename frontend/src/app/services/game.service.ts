@@ -2,6 +2,12 @@ import { Injectable } from '@angular/core';
 import { Player } from '../models/player';
 import { BehaviorSubject } from 'rxjs';
 
+export enum GameStatus {
+  unknown = 0,
+  created = 1,
+  paused = 2
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -9,6 +15,7 @@ export class GameService {
 
   private players: Array<Player> = [];
   public isEnemyWinner$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(null);
+  public status: GameStatus;
 
   constructor() { }
 
